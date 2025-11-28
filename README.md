@@ -1,5 +1,10 @@
 # Hull Tactical Market Prediction
 
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI: GitHub Actions](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/actions/workflows/python.yml/badge.svg)](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/actions)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Kaggle yarışması için geliştirilmiş makine öğrenmesi tabanlı piyasa tahmin projesi. Train.csv verisini kullanarak `market_forward_excess_returns` hedef değişkenini tahmin eder.
 
 ## 🚀 Hızlı Başlangıç
