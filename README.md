@@ -285,7 +285,20 @@ GitHub Actions CI uploads the following artifacts on each push:
 **View all runs:**
 ```bash
 python scripts/summarize_oof.py
-```Open Actions → “Python CI” run and download from “Artifacts”.
+```
+
+Open Actions → "Python CI" run and download from "Artifacts".
+
+## 📈 Visualizations
+
+### Feature Importance
+![Feature Importance](reports/feature_importance.png)
+
+### SHAP Summary
+![SHAP Summary](reports/shap_summary.png)
+
+### Backtest Equity Curve
+![Backtest Equity Curve](reports/backtest_equity_curve.png)
 
 ## 🤝 Contributing
 
@@ -296,7 +309,11 @@ Open an issue for proposals and improvements.
 - **LinkedIn:** [Diyar Erol](https://www.linkedin.com/in/diyar-erol-1b3837356/)
 - **GitHub Issues:** [Report a bug](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/issues)
 
-## 📄 License
+## 🏁 License & Credits
+
+Developed by **Diyar Erol**  
+AI-powered research with GitHub Copilot  
+© 2025 All rights reserved
 
 This project is for educational purposes.
 
