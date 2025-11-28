@@ -6,7 +6,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 
-Machine learning-based market prediction project built for the Kaggle competition. Uses `train.csv` to predict the target `market_forward_excess_returns`.
+Machine learning-based market prediction project built for the [Hull Tactical Market Prediction – Kaggle Competition](https://www.kaggle.com/competitions/hull-tactical-market-prediction). Uses `train.csv` to predict the target `market_forward_excess_returns`.
 
 ## 🚀 Quick Start
 
@@ -86,6 +86,24 @@ Contents:
    - SHAP values (TreeExplainer)
 5. Ensemble methods: weighted averaging
 6. Visualization: histograms, comparison tables, equity curve
+
+## 🧰 Environment Setup
+
+### Requirements
+- Python 3.11.9
+- pip 25.3
+- ~149 packages (see `requirements.txt`)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction.git
+cd -Hull-Tactical---Market-Prediction
+
+# Install dependencies
+pip install -r requirements.txt
+```
 
 ## 🔧 Technologies
 
