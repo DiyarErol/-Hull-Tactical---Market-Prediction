@@ -3,21 +3,21 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "id": "b809be1c",
+   "id": "c09714c5",
    "metadata": {
     "_cell_guid": "b1076dfc-b9ad-4769-8c92-a6c4dae69d19",
     "_uuid": "8f2839f25d086af736a60e9eeb907d3b93b6e0e5",
     "execution": {
-     "iopub.execute_input": "2025-11-28T15:01:31.031321Z",
-     "iopub.status.busy": "2025-11-28T15:01:31.030422Z",
-     "iopub.status.idle": "2025-11-28T15:01:33.045285Z",
-     "shell.execute_reply": "2025-11-28T15:01:33.043811Z"
+     "iopub.execute_input": "2025-11-28T15:03:19.891728Z",
+     "iopub.status.busy": "2025-11-28T15:03:19.891299Z",
+     "iopub.status.idle": "2025-11-28T15:03:22.071019Z",
+     "shell.execute_reply": "2025-11-28T15:03:22.069290Z"
     },
     "papermill": {
-     "duration": 2.019497,
-     "end_time": "2025-11-28T15:01:33.046919",
+     "duration": 2.185172,
+     "end_time": "2025-11-28T15:03:22.072944",
      "exception": false,
-     "start_time": "2025-11-28T15:01:31.027422",
+     "start_time": "2025-11-28T15:03:19.887772",
      "status": "completed"
     },
     "tags": []
@@ -27,37 +27,19 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/pytest.ini\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/advanced_pipeline.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/LICENSE\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/.gitignore\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/main.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/README.md\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/make_audit.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/requirements.txt\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/REPORT.md\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/notebookc10000092f\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/market_prediction_analysis.ipynb\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/make_submission.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/tests/conftest.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/tests/test_schema.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/tests/test_submission_format.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/tests/test_smoke.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/tests/test_advanced_pipeline.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/utils/metrics_logger.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/scripts/summarize_oof.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/.github/workflows/python.yml\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/default_inference_server.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/default_gateway.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/__init__.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/templates.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/base_gateway.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/relay.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/kaggle_evaluation.proto\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/__init__.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/generated/kaggle_evaluation_pb2.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/generated/kaggle_evaluation_pb2_grpc.py\n",
-      "/kaggle/input/notebookc10000092f/-Hull-Tactical---Market-Prediction-main/kaggle_evaluation/core/generated/__init__.py\n"
+      "/kaggle/input/hull-tactical-market-prediction/train.csv\n",
+      "/kaggle/input/hull-tactical-market-prediction/test.csv\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/default_inference_server.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/default_gateway.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/__init__.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/templates.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/base_gateway.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/relay.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/kaggle_evaluation.proto\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/__init__.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/generated/kaggle_evaluation_pb2.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/generated/kaggle_evaluation_pb2_grpc.py\n",
+      "/kaggle/input/hull-tactical-market-prediction/kaggle_evaluation/core/generated/__init__.py\n"
      ]
     }
    ],
@@ -87,9 +69,9 @@
    "accelerator": "none",
    "dataSources": [
     {
-     "datasetId": 8862810,
-     "sourceId": 13909790,
-     "sourceType": "datasetVersion"
+     "databundleVersionId": 14348714,
+     "sourceId": 111543,
+     "sourceType": "competition"
     }
    ],
    "isGpuEnabled": false,
@@ -116,14 +98,14 @@
   },
   "papermill": {
    "default_parameters": {},
-   "duration": 7.355048,
-   "end_time": "2025-11-28T15:01:33.568494",
+   "duration": 8.297086,
+   "end_time": "2025-11-28T15:03:22.597996",
    "environment_variables": {},
    "exception": null,
    "input_path": "__notebook__.ipynb",
    "output_path": "__notebook__.ipynb",
    "parameters": {},
-   "start_time": "2025-11-28T15:01:26.213446",
+   "start_time": "2025-11-28T15:03:14.300910",
    "version": "2.6.0"
   }
  },
