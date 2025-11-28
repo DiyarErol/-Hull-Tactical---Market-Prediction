@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI: GitHub Actions](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/actions/workflows/python.yml/badge.svg)](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/actions)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 
 Machine learning-based market prediction project built for the Kaggle competition. Uses `train.csv` to predict the target `market_forward_excess_returns`.
 
@@ -206,14 +207,17 @@ GitHub Actions CI uploads the following artifacts on each push:
 
 - Transaction cost: 2 bps per day
 - Latest run (local):
-    - OOF Sharpe: -0.13
-    - Max Drawdown: ~0.00
+  - OOF Sharpe: -0.13
+  - Max Drawdown: ~0.00
 - Artifacts:
-    - Equity: `reports/walkforward_oof_equity.png`
-    - Metrics JSON: `reports/walkforward_oof_fin_*.json`
-    - Rolling Sharpe: `reports/rolling_sharpe_oof.png`
+  - Equity: `reports/walkforward_oof_equity.png`
+  - Metrics JSON: `reports/walkforward_oof_fin_*.json`
+  - Rolling Sharpe: `reports/rolling_sharpe_oof.png`
 
-Open Actions → “Python CI” run and download from “Artifacts”.
+**View all runs:**
+```bash
+python scripts/summarize_oof.py
+```Open Actions → “Python CI” run and download from “Artifacts”.
 
 ## 🤝 Contributing
 
