@@ -87,6 +87,44 @@ Contents:
 5. Ensemble methods: weighted averaging
 6. Visualization: histograms, comparison tables, equity curve
 
+## 🧩 Project Structure
+
+```
+hull-tactical-market-prediction/
+├── main.py                              # Baseline pipeline (Ridge + LightGBM)
+├── advanced_pipeline.py                 # Advanced pipeline with walk-forward validation
+├── make_submission.py                   # Ensemble submission generator
+├── market_prediction_analysis.ipynb     # Jupyter analysis notebook
+├── requirements.txt                     # Python dependencies (~149 packages)
+├── pytest.ini                           # Test configuration
+├── README.md                            # Project documentation
+├── REPORT.md                            # Detailed technical report
+├── LICENSE                              # License file
+├── train.csv                            # Training data
+├── test.csv                             # Test data
+├── submission.csv                       # Basic submission
+├── submission_advanced.csv              # Advanced submission
+├── submission_ensemble.csv              # Ensemble submission
+├── .github/workflows/python.yml         # CI/CD pipeline
+├── kaggle_evaluation/                   # Kaggle evaluation infrastructure
+│   ├── __init__.py
+│   ├── default_gateway.py
+│   ├── default_inference_server.py
+│   └── core/                            # Core evaluation modules
+├── reports/                             # Walk-forward validation reports (JSON)
+│   └── walkforward_oof_fin_*.json
+├── scripts/                             # Utility scripts
+│   └── summarize_oof.py                 # OOF report summarizer
+├── tests/                               # Test suite
+│   ├── conftest.py
+│   ├── test_advanced_pipeline.py
+│   ├── test_schema.py
+│   ├── test_smoke.py
+│   └── test_submission_format.py
+└── utils/                               # Utility modules
+    └── metrics_logger.py                # Metrics logging
+```
+
 ## 🧰 Environment Setup
 
 ### Requirements
