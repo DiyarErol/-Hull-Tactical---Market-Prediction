@@ -1,6 +1,6 @@
 """
-Hull Tactical Market Prediction - Ana Pipeline
-Bu script train.csv'yi okur, basit modeller eğitir ve submission.csv oluşturur.
+Hull Tactical Market Prediction - Main Pipeline
+This script reads train.csv, trains baseline models, and creates submission.csv.
 """
 
 import pandas as pd
@@ -16,9 +16,9 @@ warnings.filterwarnings("ignore")
 
 
 def load_data():
-    """Veriyi yükle ve temel kontrolleri yap"""
+    """Load data and run basic checks"""
     print("=" * 70)
-    print("VERİ YÜKLEME")
+    print("DATA LOADING")
     print("=" * 70)
 
     train_df = pd.read_csv("train.csv")
@@ -31,32 +31,32 @@ def load_data():
 
 
 def prepare_features(train_df, test_df):
-    """Feature ve target ayrımı yap"""
+    """Prepare features and target"""
     print("\n" + "=" * 70)
-    print("FEATURE HAZIRLAMA")
+    print("FEATURE PREPARATION")
     print("=" * 70)
 
     date_col = "date_id"
     target_col = "market_forward_excess_returns"
 
-    # Feature ve target ayır
+    # Split features and target
     X_train = train_df.drop(columns=[date_col, target_col])
     y_train = train_df[target_col]
     test_ids = test_df[date_col]
 
-    # Ortak kolonları bul
+    # Find common columns
     train_cols = set(X_train.columns)
     test_cols = set(test_df.columns) - {date_col}
     common_cols = sorted(train_cols & test_cols)
 
-    print(f"✓ Train'de {len(train_cols)} kolon, Test'te {len(test_cols)} kolon")
-    print(f"✓ Ortak {len(common_cols)} kolon kullanılacak")
+    print(f"✓ Train has {len(train_cols)} columns, Test has {len(test_cols)} columns")
+    print(f"✓ Using {len(common_cols)} common columns")
 
-    # Sadece ortak kolonları kullan
+    # Use only common columns
     X_train = X_train[common_cols]
     X_test = test_df[common_cols]
 
-    # Eksik değerleri doldur
+    # Fill missing values
     X_train = X_train.fillna(X_train.mean())
     X_test = X_test.fillna(X_train.mean())
 
@@ -68,7 +68,7 @@ def prepare_features(train_df, test_df):
 
 
 def calculate_metrics(y_true, y_pred, prefix=""):
-    """Model performans metriklerini hesapla"""
+    """Compute model performance metrics"""
     rmse = np.sqrt(mean_squared_error(y_true, y_pred))
     mae = mean_absolute_error(y_true, y_pred)
     r2 = r2_score(y_true, y_pred)
@@ -88,9 +88,9 @@ def calculate_metrics(y_true, y_pred, prefix=""):
 
 
 def train_models(X_train, y_train):
-    """Ridge ve LightGBM modellerini eğit"""
+    """Train Ridge and LightGBM models"""
     print("\n" + "=" * 70)
-    print("MODEL EĞİTİMİ")
+    print("MODEL TRAINING")
     print("=" * 70)
 
     # Train-Val split
@@ -148,8 +148,8 @@ def train_models(X_train, y_train):
     calculate_metrics(y_tr, lgb_train_pred, "LightGBM Train")
     lgb_val_metrics = calculate_metrics(y_val, lgb_val_pred, "LightGBM Val")
 
-    # Tüm veri ile final model
-    print("\n[3] Final Model (Tüm Train Verisi)")
+    # Final model with full data
+    print("\n[3] Final Model (Full Train Data)")
     ridge_full = Ridge(alpha=1.0, random_state=42)
     ridge_full.fit(X_full_scaled, y_train)
 
@@ -160,20 +160,20 @@ def train_models(X_train, y_train):
 
 
 def create_submission(ridge_model, lgb_model, scaler, X_test, test_ids, lgb_val_metrics):
-    """Test tahminlerini oluştur ve submission.csv kaydet"""
+    """Generate test predictions and save submission.csv"""
     print("\n" + "=" * 70)
-    print("TEST TAHMİNLERİ VE SUBMISSION")
+    print("TEST PREDICTIONS AND SUBMISSION")
     print("=" * 70)
 
     X_test_scaled = scaler.transform(X_test)
 
-    # Tahminler
+    # Predictions
     ridge_pred = ridge_model.predict(X_test_scaled)
     lgb_pred = lgb_model.predict(X_test_scaled)
 
-    # Ensemble (LightGBM val performansına göre ağırlıklandır)
-    # LightGBM daha iyi performans gösteriyorsa daha fazla ağırlık ver
-    lgb_weight = 0.7  # LightGBM için daha yüksek ağırlık
+    # Ensemble (weighted by LightGBM validation performance)
+    # Give more weight to LightGBM if it performs better
+    lgb_weight = 0.7  # higher weight for LightGBM
     ridge_weight = 0.3
 
     ensemble_pred = ridge_weight * ridge_pred + lgb_weight * lgb_pred
@@ -186,38 +186,38 @@ def create_submission(ridge_model, lgb_model, scaler, X_test, test_ids, lgb_val_
     submission_df = pd.DataFrame({"id": test_ids, "prediction": ensemble_pred})
 
     submission_df.to_csv("submission.csv", index=False)
-    print(f"\n✓ submission.csv oluşturuldu ({len(submission_df)} satır)")
+    print(f"\n✓ submission.csv created ({len(submission_df)} rows)")
 
     return submission_df
 
 
 def main():
-    """Ana pipeline"""
+    """Main pipeline"""
     print("\n" + "=" * 70)
     print("HULL TACTICAL MARKET PREDICTION - PIPELINE")
     print("=" * 70)
 
-    # 1. Veri yükle
+    # 1. Load data
     train_df, test_df = load_data()
 
-    # 2. Feature hazırla
+    # 2. Prepare features
     X_train, y_train, X_test, test_ids = prepare_features(train_df, test_df)
 
-    # 3. Modelleri eğit
+    # 3. Train models
     ridge_model, lgb_model, scaler, lgb_val_metrics = train_models(X_train, y_train)
 
-    # 4. Submission oluştur
+    # 4. Create submission
     submission_df = create_submission(
         ridge_model, lgb_model, scaler, X_test, test_ids, lgb_val_metrics
     )
 
     print("\n" + "=" * 70)
-    print("PIPELINE TAMAMLANDI")
+    print("PIPELINE COMPLETED")
     print("=" * 70)
-    print("\nSonraki adımlar:")
-    print("  1. Jupyter Notebook açın: jupyter notebook")
-    print("  2. market_prediction_analysis.ipynb dosyasını açın")
-    print("  3. Detaylı analiz ve model geliştirme yapın")
+    print("\nNext steps:")
+    print("  1. Open Jupyter Notebook: jupyter notebook")
+    print("  2. Open market_prediction_analysis.ipynb")
+    print("  3. Perform detailed analysis and model development")
     print("=" * 70 + "\n")
 
 

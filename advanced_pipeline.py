@@ -244,13 +244,13 @@ def main():
     print("=" * 70)
 
     # Load data
-    print("\n[1] Veri Yükleme...")
+    print("\n[1] Data Loading...")
     train_df = pd.read_csv("train.csv")
     test_df = pd.read_csv("test.csv")
     print(f"✓ Train: {train_df.shape}, Test: {test_df.shape}")
 
     # Prepare features
-    print("\n[2] Feature Hazırlama...")
+    print("\n[2] Feature Preparation...")
     date_col = "date_id"
     target_col = "market_forward_excess_returns"
 
@@ -262,13 +262,13 @@ def main():
     train_cols = set(X_train_base.columns)
     test_cols = set(test_df.columns) - {date_col}
     common_cols = sorted(train_cols & test_cols)
-    print(f"✓ {len(common_cols)} ortak kolon kullanılacak")
+    print(f"✓ Using {len(common_cols)} common columns")
 
     X_train_base = X_train_base[common_cols]
     X_test_base = test_df[common_cols]
 
     # Feature engineering
-    print("\n[3] Feature Engineering (Teknik Göstergeler)...")
+    print("\n[3] Feature Engineering (Technical Indicators)...")
     train_enhanced = add_technical_indicators(
         train_df.drop(columns=[target_col]), X_train_base.columns.tolist()
     )
@@ -319,7 +319,7 @@ def main():
     print(f"OOF Max Drawdown: {oof['max_dd']:.2f}")
 
     # Train final model
-    print("\n[6] Final Model Eğitimi...")
+    print("\n[6] Final Model Training...")
     scaler_full = RobustScaler()
     X_full_scaled = scaler_full.fit_transform(X_train)
     X_test_scaled = scaler_full.transform(X_test)
@@ -332,8 +332,8 @@ def main():
     # Predictions
     test_preds = final_model.predict(X_test_scaled)
 
-    print(f"✓ Test tahminleri: [{test_preds.min():.6f}, {test_preds.max():.6f}]")
-    print(f"✓ Test tahmin ortalaması: {test_preds.mean():.6f}")
+    print(f"✓ Test prediction range: [{test_preds.min():.6f}, {test_preds.max():.6f}]")
+    print(f"✓ Test prediction mean: {test_preds.mean():.6f}")
 
     # Create submission
     submission = pd.DataFrame({"id": test_ids, "prediction": test_preds})
@@ -364,11 +364,11 @@ def main():
     plt.close()
 
     print("\n" + "=" * 70)
-    print("✓ submission_advanced.csv oluşturuldu")
+    print("✓ submission_advanced.csv created")
     print("=" * 70)
-    print("\nÖzet:")
-    print(f"  - Ortak feature: {len(common_cols)}")
-    print(f"  - Enhanced feature: {X_train.shape[1]}")
+    print("\nSummary:")
+    print(f"  - Common features: {len(common_cols)}")
+    print(f"  - Enhanced features: {X_train.shape[1]}")
     print(f"  - CV RMSE: {np.mean(cv_results['RMSE']):.6f} ± {np.std(cv_results['RMSE']):.6f}")
     print(
         f"  - CV DirAcc: {np.mean(cv_results['Direction_Accuracy']):.4f} ± "

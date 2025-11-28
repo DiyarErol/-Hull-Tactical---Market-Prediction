@@ -5,94 +5,95 @@
 [![CI: GitHub Actions](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/actions/workflows/python.yml/badge.svg)](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/actions)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Kaggle yarışması için geliştirilmiş makine öğrenmesi tabanlı piyasa tahmin projesi. Train.csv verisini kullanarak `market_forward_excess_returns` hedef değişkenini tahmin eder.
+Machine learning-based market prediction project built for the Kaggle competition. Uses `train.csv` to predict the target `market_forward_excess_returns`.
 
-## 🚀 Hızlı Başlangıç
+## 🚀 Quick Start
 
-### Gereksinimler
+### Requirements
 - Python 3.11.9
 - pip 25.3
 
-### Kurulum
+### Setup
 
 ```bash
-# 1. Bağımlılıkları yükle
+# 1. Install dependencies
+pip install -r requirements.txt
 
-# 2. Basit pipeline çalıştır
+# 2. Run the baseline pipeline
 python main.py
 
-
+# 3. Run the advanced pipeline
+python advanced_pipeline.py
 ```
-├── market_prediction_analysis.ipynb   # Detaylı analiz notebook'u
-├── requirements.txt                   # Python bağımlılıkları (149 paket)
 
-### Ana Script (main.py)
+Key files:
+- `market_prediction_analysis.ipynb` — analysis notebook
+- `requirements.txt` — Python dependencies (~149 packages)
+
+### Main Script (main.py)
 - Ridge Regression (baseline)
 - LightGBM (gradient boosting)
-- RMSE (Root Mean Squared Error)
-- MAE (Mean Absolute Error)
-- R² Score
-- Direction Accuracy (yön tahmin doğruluğu)
+- Metrics: RMSE, MAE, R², Direction Accuracy
 
-**Çalıştırma:**
+Run:
 ```bash
 python main.py
 ```
 
-**Çıktı:** `submission.csv` (id + prediction)
+Output: `submission.csv` (id + prediction)
 
 ### Jupyter Notebook (market_prediction_analysis.ipynb)
-Kapsamlı analiz ve geliştirme ortamı:
+Comprehensive analysis and experimentation environment.
 
-**İçerik:**
-1. **Veri Keşfi:** Dağılım analizi, eksik değer kontrolü, feature grupları
-2. **Feature Engineering:** 
+Contents:
+1. Data exploration: distributions, missing values, feature groups
+2. Feature engineering:
    - RSI (Relative Strength Index)
    - MACD (Moving Average Convergence Divergence)
    - EMA (Exponential Moving Average)
    - Bollinger Bands
-   - Rolling istatistikler (mean, std)
-3. **Model Eğitimi:**
+   - Rolling statistics (mean, std)
+3. Model training:
    - Ridge Regression
    - LightGBM
    - XGBoost
    - TimeSeriesSplit validation
-4. **Feature Importance:**
+4. Feature importance:
    - LightGBM gain-based importance
    - SHAP values (TreeExplainer)
-5. **Ensemble Methods:** Weighted averaging
-6. **Görselleştirme:** Dağılım grafikleri, karşılaştırma tabloları, equity curve
+5. Ensemble methods: weighted averaging
+6. Visualization: histograms, comparison tables, equity curve
 
-## 🔧 Kullanılan Teknolojiler
+## 🔧 Technologies
 
-### Veri İşleme
+### Data Processing
 - pandas 2.3.3
 - numpy 2.3.5
 - scipy 1.16.3
 
-### Makine Öğrenmesi
+### Machine Learning
 - scikit-learn 1.7.2
 - lightgbm 4.6.0
 - xgboost 3.1.2
-- optuna 4.6.0 (hyperparameter tuning için hazır)
+- optuna 4.6.0 (ready for hyperparameter tuning)
 
-### Model Yorumlama
+### Model Interpretation
 - shap 0.50.0
 
-### Görselleştirme
+### Visualization
 - matplotlib 3.10.7
 - seaborn 0.13.2
 - plotly 6.5.0
 
-### Geliştirme Araçları
+### Development Tools
 - jupyter 1.1.1
 - black 25.11.0 (code formatter)
 - flake8 7.3.0 (linter)
 - pytest 9.0.1 (test framework)
 
-## 📊 Model Performansı
+## 📊 Model Performance
 
-Son çalıştırma sonuçları (validation set):
+Recent validation results:
 
 | Model | RMSE | R² | Direction Acc |
 |-------|------|-----|---------------|
@@ -100,23 +101,23 @@ Son çalıştırma sonuçları (validation set):
 | LightGBM | 0.0111 | 0.0017 | 0.5302 |
 | **Ensemble** | **0.0109** | **0.008** | **0.525** |
 
-## 🎨 Feature Grupları
+## 🎨 Feature Groups
 
-Train.csv'de 96 feature, 7 ana gruba ayrılmış:
+`train.csv` includes 96 features grouped into 7 families:
 
-- **D_** : Derivative features (~15 kolon)
-- **E_** : Economic indicators (~10 kolon)
-- **I_** : Interest rate features (~12 kolon)
-- **M_** : Market features (~20 kolon)
-- **P_** : Price features (~18 kolon)
-- **S_** : Sentiment features (~8 kolon)
-- **V_** : Volatility features (~13 kolon)
+- **D_**: Derivative features (~15 cols)
+- **E_**: Economic indicators (~10 cols)
+- **I_**: Interest rate features (~12 cols)
+- **M_**: Market features (~20 cols)
+- **P_**: Price features (~18 cols)
+- **S_**: Sentiment features (~8 cols)
+- **V_**: Volatility features (~13 cols)
 
-## 🛠️ Geliştirme İpuçları
+## 🛠️ Development Tips
 
-### Yeni Model Ekleme
+### Add a New Model
 ```python
-# main.py içinde train_models fonksiyonuna ekle
+# Add into train_models in main.py
 from sklearn.ensemble import RandomForestRegressor
 
 rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
@@ -134,7 +135,7 @@ def objective(trial):
         'num_leaves': trial.suggest_int('num_leaves', 20, 50),
         'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1),
     }
-    # Model eğit ve RMSE döndür
+    # Train model and return RMSE
     ...
     return rmse
 
@@ -144,39 +145,39 @@ study.optimize(objective, n_trials=50)
 
 ### Feature Engineering
 ```python
-# Teknik göstergeler ekle
+# Add technical indicators
 def add_momentum_features(df):
     df['momentum_5'] = df['feature'].pct_change(5)
     df['momentum_10'] = df['feature'].pct_change(10)
     return df
 ```
 
-## 📝 Notlar
+## 📝 Notes
 
-- **Veri Leakage:** Test setinde `lagged_*` kolonları var, train'de yok. Pipeline ortak kolonları otomatik seçer.
-- **Scaling:** RobustScaler kullanılıyor (outlier'lara dayanıklı).
-- **Time Series:** TimeSeriesSplit ile zamansal bölünme (shuffle=False).
-- **Early Stopping:** LightGBM'de 50 round patience.
-- **Reproducibility:** random_state=42 her yerde sabit.
+- Data leakage: test set has `lagged_*` columns not in train; pipeline automatically selects common columns.
+- Scaling: RobustScaler (robust to outliers).
+- Time series: TimeSeriesSplit with strict temporal ordering (shuffle=False).
+- Early stopping: LightGBM patience 50 rounds.
+- Reproducibility: `random_state=42` used consistently.
 
-## 🚧 Geliştirme Yol Haritası
+## 🚧 Roadmap
 
-### Kısa Vade
-- [x] Basit pipeline (Ridge + LightGBM)
-- [x] Submission dosyası üretimi
-- [x] Jupyter notebook hazırlama
+### Short Term
+- [x] Baseline pipeline (Ridge + LightGBM)
+- [x] Submission file generation
+- [x] Jupyter notebook
 - [ ] Cross-validation (5-fold TimeSeriesSplit)
 - [ ] Hyperparameter tuning (Optuna)
 - [ ] Stacking ensemble
 
-### Orta Vade
-- [ ] Ablation study (feature grubu etkisi)
+### Medium Term
+- [ ] Ablation study (feature group impact)
 - [ ] Permutation importance
 - [ ] SHAP dependency plots
-- [ ] Backtest simülasyonu
-- [ ] Error analizi (worst days, regime detection)
+- [ ] Backtest simulation
+- [ ] Error analysis (worst days, regime detection)
 
-### Uzun Vade
+### Long Term
 - [ ] Neural network (MLP, LSTM)
 - [ ] AutoML (FLAML, Auto-sklearn)
 - [ ] Feature selection (Boruta, RFE)
@@ -185,28 +186,28 @@ def add_momentum_features(df):
 
 ## 📦 Artifacts (CI)
 
-GitHub Actions CI, her push’ta aşağıdaki artifact’leri yükler:
+GitHub Actions CI uploads the following artifacts on each push:
 - `submission.csv`, `submission_advanced.csv`
 - `audit_report_*.json`
-- (Varsa) `reports/full_audit_report_*.html`
-- Görseller: `reports/advanced_prediction_hist.png`, `reports/advanced_proxy_equity_curve.png`
+- (If any) `reports/full_audit_report_*.html`
+- Visuals: `reports/advanced_prediction_hist.png`, `reports/advanced_proxy_equity_curve.png`, `reports/walkforward_oof_equity.png`
 
-Actions → “Python CI” çalıştırmasını açıp “Artifacts” sekmesinden indirebilirsiniz.
+Open Actions → “Python CI” run and download from “Artifacts”.
 
-## 🤝 Katkı
+## 🤝 Contributing
 
-Öneriler ve iyileştirmeler için issue açabilirsiniz.
+Open an issue for proposals and improvements.
 
 ### Contact
 - **Email:** [eroldiyar41@gmail.com](mailto:eroldiyar41@gmail.com)
 - **LinkedIn:** [Diyar Erol](https://www.linkedin.com/in/diyar-erol-1b3837356/)
 - **GitHub Issues:** [Report a bug](https://github.com/DiyarErol/-Hull-Tactical---Market-Prediction/issues)
 
-## 📄 Lisans
+## 📄 License
 
-Bu proje eğitim amaçlıdır.
+This project is for educational purposes.
 
 ---
 
-**Son Güncelleme:** 28 Kasım 2025  
-**Python:** 3.11.9 | **pip:** 25.3 | **Paketler:** 149
+**Last Update:** 28 Nov 2025  
+**Python:** 3.11.9 | **pip:** 25.3 | **Packages:** ~149

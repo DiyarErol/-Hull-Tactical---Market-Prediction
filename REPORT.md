@@ -1,19 +1,19 @@
-# Hull Tactical Market Prediction - Proje Raporu
+# Hull Tactical Market Prediction - Project Report
 
-**Tarih:** 28 Kasım 2025  
+**Date:** 28 Nov 2025  
 **Python:** 3.11.9 | **pip:** 25.3
 
 ---
 
-## 📊 Proje Özeti
+## 📊 Project Summary
 
-Hull Tactical yarışması için geliştirilmiş iki aşamalı ML pipeline:
-1. **Basit Pipeline** (main.py): Hızlı baseline modeller
-2. **Gelişmiş Pipeline** (advanced_pipeline.py): Feature engineering, tuning, CV
+Two-stage ML pipeline built for the Hull Tactical competition:
+1. **Basic Pipeline** (`main.py`): quick baseline models
+2. **Advanced Pipeline** (`advanced_pipeline.py`): feature engineering, tuning, CV
 
 ---
 
-## 🎯 Model Performans Karşılaştırması
+## 🎯 Model Performance Comparison
 
 ### 🏆 BEST MODEL — November 2025 Update
 
@@ -55,7 +55,7 @@ Hull Tactical yarışması için geliştirilmiş iki aşamalı ML pipeline:
 
 ---
 
-### Basit Pipeline (main.py)
+### Basic Pipeline (main.py)
 
 | Model | Val RMSE | Val R² | Direction Acc | Train Time |
 |-------|----------|--------|---------------|------------|
@@ -63,13 +63,13 @@ Hull Tactical yarışması için geliştirilmiş iki aşamalı ML pipeline:
 | LightGBM | 0.0111 | 0.0017 | 53.0% | ~2s |
 | **Ensemble** | **~0.011** | **~0.002** | **~51%** | **~3s** |
 
-**Özellikler:**
-- 94 ortak feature (train-test overlap)
+**Features:**
+- 94 common features (train-test overlap)
 - RobustScaler
 - 80/20 train-val split
 - Ensemble: 30% Ridge + 70% LightGBM
 
-### Gelişmiş Pipeline (advanced_pipeline.py)
+### Advanced Pipeline (advanced_pipeline.py)
 
 | Metrik | Ortalama | Std Dev |
 |--------|----------|---------|
@@ -78,8 +78,8 @@ Hull Tactical yarışması için geliştirilmiş iki aşamalı ML pipeline:
 | **CV R²** | **0.00199** | **±0.00188** |
 | **CV Direction Acc** | **51.4%** | **±1.5%** |
 
-**Özellikler:**
-- 94 enhanced features (teknik göstergeler eklendi ama çakışma nedeniyle aynı kaldı)
+**Features:**
+- 94 enhanced features (technical indicators attempted; final count unchanged due to overlap)
 - Optuna hyperparameter tuning (20 trials)
 - 5-fold TimeSeriesSplit CV
 - Best params: num_leaves=22, lr=0.025, bagging_fraction=0.56
@@ -101,29 +101,29 @@ Hull Tactical yarışması için geliştirilmiş iki aşamalı ML pipeline:
 
 ---
 
-## 📈 Submission Karşılaştırma
+## 📈 Submission Comparison
 
-### submission.csv (Basit)
+### submission.csv (Basic)
 - **Aralık:** [0.000292, 0.000626]
 - **Ortalama:** 0.000487
 - **Std Dev:** 0.000122
 - **Karakteristik:** Dar aralık, konservatif tahminler
 
-### submission_advanced.csv (Gelişmiş)
+### submission_advanced.csv (Advanced)
 - **Aralık:** [-0.000121, 0.002075]
 - **Ortalama:** 0.000581
 - **Std Dev:** 0.000628
 - **Karakteristik:** Geniş aralık, negatif değer var, daha cesur tahminler
 
-### Korelasyon
-**0.425** - Orta seviye korelasyon, modeller farklı pattern'ler yakalıyor
+### Correlation
+**0.425** — Moderate correlation; models capture different patterns
 
 ---
 
-## 🔬 Teknik Detaylar
+## 🔬 Technical Details
 
 ### Feature Engineering (advanced_pipeline.py)
-Her feature grubu (D_, E_, I_, M_, P_, S_, V_) için:
+For each feature group (D_, E_, I_, M_, P_, S_, V_):
 
 **Rolling Statistics:**
 - 5, 10, 20 window rolling mean & std
@@ -132,27 +132,27 @@ Her feature grubu (D_, E_, I_, M_, P_, S_, V_) için:
 **Technical Indicators:**
 - **RSI (14):** Relative Strength Index
 - **MACD:** Moving Average Convergence Divergence + Signal
-- **Bollinger Bands:** Width hesaplama
+- **Bollinger Bands:** width
 
-**Sonuç:** Train-test kolon uyumsuzluğu nedeniyle teknik göstergeler eklendi ama final feature count değişmedi (94 kaldı).
+**Result:** Due to train-test column mismatch, technical indicators were attempted but final feature count remained 94.
 
 ### Hyperparameter Tuning
-- **Framework:** Optuna (Tree-structured Parzen Estimator)
+- **Framework:** Optuna (TPE)
 - **Trials:** 20
-- **Objective:** Validation RMSE minimization
+- **Objective:** validation RMSE minimization
 - **Best RMSE:** 0.011103
-- **Tuning Time:** ~4 saniye
+- **Tuning Time:** ~4 seconds
 
 ### Cross-Validation
 - **Method:** TimeSeriesSplit (5 folds)
-- **Rationale:** Zamansal leakage'ı önlemek
+- **Rationale:** prevent temporal leakage
 - **Fold RMSE Range:** [0.0082, 0.0132]
 - **Best Fold:** Fold 4 (RMSE=0.0082)
 - **Worst Fold:** Fold 3 (RMSE=0.0132)
 
 ---
 
-## 📁 Dosya Yapısı
+## 📁 Project Structure
 
 ```
 hull-tactical-market-prediction/
@@ -166,89 +166,89 @@ hull-tactical-market-prediction/
 ├── requirements.txt                   # 149 paket
 ├── README.md                          # Proje dokümantasyonu
 ├── REPORT.md                          # Bu rapor
-└── kaggle_evaluation/                 # Kaggle modülü
+└── kaggle_evaluation/                 # Kaggle evaluation module
 ```
 
 ---
 
-## 🚀 Kullanım Kılavuzu
+## 🚀 Usage Guide
 
-### Hızlı Başlangıç
+### Quick Start
 ```bash
-# Basit pipeline (3 saniye)
+# Basic pipeline (~3 seconds)
 python main.py
 
-# Gelişmiş pipeline (20-30 saniye)
+# Advanced pipeline (20-30 seconds)
 python advanced_pipeline.py
 
 # Jupyter notebook
 jupyter notebook
-# → market_prediction_analysis.ipynb aç
+# → open market_prediction_analysis.ipynb
 ```
 
-### Ortam Kurulumu
+### Environment Setup
 ```bash
-# Bağımlılıkları kur
+# Install dependencies
 pip install -r requirements.txt
 
-# Paket kontrolü
+# Package check
 python -c "import pandas, lightgbm, xgboost, optuna, shap; print('OK')"
 ```
 
 ---
 
-## 💡 Önemli Bulgular
+## 💡 Key Findings
 
 ### 1. Model Performansı
 - **RMSE:** ~0.011 (hem basit hem gelişmiş)
 - **Direction Accuracy:** ~51-53% (rastgeleye çok yakın)
 - **R²:** ~0.002 (açıklama gücü çok düşük)
 
-**Yorum:** Mevcut feature'lar hedef değişkeni tahmin etmekte yetersiz. İyileştirme gerekli.
+**Note:** Current features are insufficient to explain target; improvements needed.
 
-### 2. Feature Engineering Etkisi
-- Teknik göstergeler eklendi ancak train-test uyumsuzluğu nedeniyle final feature count aynı kaldı
-- Rolling statistics ve momentum göstergeleri hesaplandı
-- İleride: Sadece ortak kolonlara gösterge eklemek daha mantıklı
+### 2. Feature Engineering Impact
+- Technical indicators added but final feature count unchanged due to mismatch
+- Rolling statistics and momentum indicators computed
+- Future: add indicators only to common columns
 
 ### 3. Hyperparameter Tuning
-- 20 trial sonrası best RMSE: 0.011103
+- Best RMSE after 20 trials: 0.011103
 - Baseline (trial 0): 0.011116
-- **İyileşme:** 0.00001 (marjinal)
-- Tuning çok az fark yarattı → feature kalitesi önemli
+- **Improvement:** 0.00001 (marginal)
+- Tuning had minimal impact → feature quality matters more
 
-### 4. Cross-Validation Stabilitesi
-- Fold'lar arası RMSE std: ±0.00174 (yüksek varyans)
-- Fold 3 ve 4 arasında %60 fark var
-- Zamansal trend değişimi veya distribution shift olabilir
+### 4. Cross-Validation Stability
+- RMSE std across folds: ±0.00174 (high variance)
+- ~60% gap between folds 3 and 4
+- Possible temporal trend change or distribution shift
 
-### 5. Submission Tahminleri
-- Basit: Dar aralık, konservatif
-- Gelişmiş: Geniş aralık, negatif değer var (!)
-- **Korelasyon 0.42:** Modeller farklı şeyler öğrenmiş
-- Ensemble denenebilir: (basic + advanced) / 2
+### 5. Submission Predictions
+- Basic: narrow range, conservative
+- Advanced: wider range, includes negatives (!)
+- **Correlation 0.42:** models learned different patterns
+- Try ensemble: (basic + advanced) / 2
 
 ---
 
-## 🔧 İyileştirme Önerileri
+## 🔧 Improvement Ideas
 
-### Kısa Vade (1-2 saat)
+### Short Term (1-2 hours)
 1. **Feature Selection:**
    - Permutation importance ile önemsiz kolonları çıkar
    - SHAP değerleri ile top 50 feature seç
    - Boruta algoritması dene
 
-2. **Model Çeşitliliği:**
-   - XGBoost ekle (LightGBM'den farklı pattern'ler yakalayabilir)
-   - CatBoost dene (kategorik feature handling)
-   - Ridge'i ElasticNet ile değiştir
+2. **Model Diversity:**
+- Add XGBoost (captures different patterns)
+- Try CatBoost (categorical handling)
+- Replace Ridge with ElasticNet
 
 3. **Ensemble:**
-   - Basit + Gelişmiş weighted average
-   - Stacking (meta-model)
-   - Blending (farklı train-val split'ler)
+- Weighted average (basic + advanced)
+- Stacking (meta-model)
+- Blending (different train-val splits)
 
-### Orta Vade (3-5 saat)
+### Medium Term (3-5 hours)
 1. **Advanced Feature Engineering:**
    - Lag features (t-1, t-2, t-5)
    - Interaction terms (D_* × M_*)
@@ -265,7 +265,7 @@ python -c "import pandas, lightgbm, xgboost, optuna, shap; print('OK')"
    - Multi-objective optimization (RMSE + Direction Acc)
    - Bayesian Optimization (scikit-optimize)
 
-### Uzun Vade (1-2 gün)
+### Long Term (1-2 days)
 1. **Neural Networks:**
    - LSTM (sequence modeling)
    - Transformer (attention mechanism)
@@ -283,7 +283,7 @@ python -c "import pandas, lightgbm, xgboost, optuna, shap; print('OK')"
 
 ---
 
-## 🎓 Öğrenilen Dersler
+## 🎓 Lessons Learned
 
 1. **Feature Quality > Quantity:** 94 feature var ama R²=0.002. Kaliteli feature'lar gerekli.
 
@@ -299,43 +299,43 @@ python -c "import pandas, lightgbm, xgboost, optuna, shap; print('OK')"
 
 ---
 
-## 📊 Sonuçlar ve Tavsiyeler
+## 📊 Results & Recommendations
 
-### Hangi Submission?
-**Durum 1: Conservative Strategy**
-→ `submission.csv` kullan
-- Dar aralık
-- Outlier yok
-- Daha safe
+### Which Submission?
+**Case 1: Conservative Strategy**
+→ Use `submission.csv`
+- Narrow range
+- No outliers
+- Safer
 
-**Durum 2: Aggressive Strategy**
-→ `submission_advanced.csv` kullan
+**Case 2: Aggressive Strategy**
+→ Use `submission_advanced.csv`
 - Tuned hyperparameters
 - Cross-validated
-- Daha high-risk, high-reward
+- Higher risk, higher reward
 
-**Durum 3: Best of Both**
-→ Ensemble oluştur:
+**Case 3: Best of Both**
+→ Build an ensemble:
 ```python
 ensemble = 0.5 * basic + 0.5 * advanced
 ```
 
-### Sonraki Adım
-1. Jupyter notebook'u aç: `jupyter notebook`
-2. `market_prediction_analysis.ipynb`'ı çalıştır
-3. SHAP analizi yap (en önemli feature'ları bul)
-4. Feature selection + yeniden eğitim
-5. XGBoost ekle ve 3-model ensemble oluştur
+### Next Steps
+1. Open Jupyter: `jupyter notebook`
+2. Run `market_prediction_analysis.ipynb`
+3. Do SHAP analysis (find top features)
+4. Feature selection + retrain
+5. Add XGBoost and build a 3-model ensemble
 
 ---
 
-## 📧 İletişim & Destek
+## 📧 Contact & Support
 
-Sorular için issue açın veya notebook'taki cell'leri çalıştırarak deney yapın.
+Open an issue or run notebook cells to experiment.
 
 **Happy Modeling! 🚀📈**
 
 ---
 
-*Bu rapor otomatik olarak oluşturulmuştur.*  
-*Son Güncelleme: 28 Kasım 2025, 04:15*
+*This report is auto-generated.*  
+*Last Update: 28 Nov 2025, 04:15*
