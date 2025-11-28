@@ -42,6 +42,16 @@ python main.py
 
 Output: `submission.csv` (id + prediction)
 
+### Advanced Pipeline (advanced_pipeline.py)
+Run with options:
+```bash
+# Default (126-day rolling Sharpe)
+python advanced_pipeline.py
+
+# Custom rolling Sharpe window
+python advanced_pipeline.py --sharpe_window 252
+```
+
 ### Jupyter Notebook (market_prediction_analysis.ipynb)
 Comprehensive analysis and experimentation environment.
 

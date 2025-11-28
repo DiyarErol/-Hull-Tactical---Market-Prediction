@@ -9,6 +9,7 @@ Advanced Hull Tactical Market Prediction Pipeline
 
 import pandas as pd
 import numpy as np
+import argparse
 from sklearn.model_selection import TimeSeriesSplit
 from sklearn.preprocessing import RobustScaler
 from sklearn.linear_model import Ridge
@@ -188,7 +189,7 @@ def cross_validate_model(X, y, model_type="lightgbm", params=None, n_splits=5):
     return cv_scores
 
 
-def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_splits: int = 5):
+def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_splits: int = 5, sharpe_window: int = 126):
     """Generate out-of-fold predictions in time order and compute finance metrics.
     Returns dict with daily returns series and Sharpe/MaxDD.
     """
@@ -237,10 +238,10 @@ def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_split
     plt.savefig("reports/walkforward_oof_equity.png")
     plt.close()
 
-    # Rolling Sharpe (approx) over 126-day window
+    # Rolling Sharpe (approx) over configurable window
     # Use net returns: subtract transaction cost
     net = daily_ret - (2.0 / 10000.0)
-    window = 126
+    window = sharpe_window
     eps = 1e-12
     roll_mu = pd.Series(net).rolling(window).mean()
     roll_sigma = pd.Series(net).rolling(window).std() + eps
@@ -267,6 +268,10 @@ def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_split
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Advanced pipeline runner")
+    parser.add_argument("--sharpe_window", type=int, default=126, help="Rolling Sharpe window length (days)")
+    args = parser.parse_args()
+
     print("\n" + "=" * 70)
     print("ADVANCED PIPELINE - HULL TACTICAL MARKET PREDICTION")
     print("=" * 70)
@@ -342,7 +347,9 @@ def main():
 
     # Walk-forward OOF backtest
     print("\n[5b] Walk-Forward OOF Backtest (2bps)...")
-    oof = walk_forward_oof_backtest(X_train.values, y_train, params=best_params, n_splits=5)
+    oof = walk_forward_oof_backtest(
+        X_train.values, y_train, params=best_params, n_splits=5, sharpe_window=args.sharpe_window
+    )
     print(f"OOF Sharpe (2bps): {oof['sharpe']:.2f}")
     print(f"OOF Max Drawdown: {oof['max_dd']:.2f}")
 

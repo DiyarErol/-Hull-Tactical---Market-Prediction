@@ -15,16 +15,15 @@ Two-stage ML pipeline built for the Hull Tactical competition:
 
 - Purpose: Out-of-fold, time-ordered evaluation without leakage
 - Config: LightGBM + RobustScaler per fold, early stopping, 2 bps/day cost
+- CLI: `python advanced_pipeline.py --sharpe_window N` (default: 126)
 - Latest local run:
-   - OOF Sharpe: -0.13
-   - Max Drawdown: ~0.00
+  - OOF Sharpe: -0.13
+  - Max Drawdown: ~0.00
 - Artifacts:
-   - Equity curve: `reports/walkforward_oof_equity.png`
-   - Metrics JSON: `reports/walkforward_oof_fin_*.json`
-   - Rolling Sharpe: `reports/rolling_sharpe_oof.png`
-   - CI Job Summary appends OOF metrics when available
-
----
+  - Equity curve: `reports/walkforward_oof_equity.png`
+  - Metrics JSON: `reports/walkforward_oof_fin_*.json`
+  - Rolling Sharpe: `reports/rolling_sharpe_oof.png`
+  - CI Job Summary appends OOF metrics when available---
 
 ## 🎯 Model Performance Comparison
 
