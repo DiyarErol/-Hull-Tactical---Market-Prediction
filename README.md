@@ -192,6 +192,16 @@ GitHub Actions CI uploads the following artifacts on each push:
 - (If any) `reports/full_audit_report_*.html`
 - Visuals: `reports/advanced_prediction_hist.png`, `reports/advanced_proxy_equity_curve.png`, `reports/walkforward_oof_equity.png`
 
+## 🔁 Walk-Forward OOF Backtest
+
+- Transaction cost: 2 bps per day
+- Latest run (local):
+    - OOF Sharpe: -0.13
+    - Max Drawdown: ~0.00
+- Artifacts:
+    - Equity: `reports/walkforward_oof_equity.png`
+    - Metrics JSON: `reports/walkforward_oof_fin_*.json`
+
 Open Actions → “Python CI” run and download from “Artifacts”.
 
 ## 🤝 Contributing

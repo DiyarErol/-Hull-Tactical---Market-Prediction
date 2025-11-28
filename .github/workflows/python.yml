@@ -46,6 +46,40 @@ jobs:
         run: |
           if [ -f make_audit.py ]; then python make_audit.py; else echo "No audit script"; fi
 
+      - name: Run advanced pipeline (best-effort)
+        run: |
+          if [ -f advanced_pipeline.py ]; then python advanced_pipeline.py || echo "advanced_pipeline failed, continuing"; else echo "No advanced pipeline script"; fi
+
+      - name: OOF summary (if metrics exist)
+        run: |
+          LATEST_JSON=$(ls -t reports/walkforward_oof_fin_*.json 2>/dev/null | head -n 1)
+          if [ -f "$LATEST_JSON" ]; then 
+            SHARPE=$(python - << 'PY'
+import json,sys
+import pathlib
+p=pathlib.Path(sys.argv[1])
+with p.open() as f:
+    d=json.load(f)
+print(d.get('oof_sharpe_2bps', 'n/a'))
+PY
+"$LATEST_JSON")
+            MAXDD=$(python - << 'PY'
+import json,sys
+import pathlib
+p=pathlib.Path(sys.argv[1])
+with p.open() as f:
+    d=json.load(f)
+print(d.get('oof_max_drawdown', 'n/a'))
+PY
+"$LATEST_JSON")
+            echo "## Walk-Forward OOF (2bps)" >> $GITHUB_STEP_SUMMARY
+            echo "- Sharpe: $SHARPE" >> $GITHUB_STEP_SUMMARY
+            echo "- Max Drawdown: $MAXDD" >> $GITHUB_STEP_SUMMARY
+            echo "- File: $LATEST_JSON" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No OOF metrics JSON found" >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Upload artifacts (submissions & audit)
         if: always()
         uses: actions/upload-artifact@v4
@@ -55,4 +89,6 @@ jobs:
             submission.csv
             submission_advanced.csv
             audit_report_*.json
+            reports/walkforward_oof_equity.png
+            reports/walkforward_oof_fin_*.json
           if-no-files-found: warn
