@@ -186,6 +186,58 @@ def cross_validate_model(X, y, model_type="lightgbm", params=None, n_splits=5):
     return cv_scores
 
 
+def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_splits: int = 5):
+    """Generate out-of-fold predictions in time order and compute finance metrics.
+    Returns dict with daily returns series and Sharpe/MaxDD.
+    """
+    tscv = TimeSeriesSplit(n_splits=n_splits)
+    oof_preds = np.zeros_like(y.values, dtype=float)
+
+    for _, (train_idx, val_idx) in enumerate(tscv.split(X), 1):
+        X_tr, X_val = X[train_idx], X[val_idx]
+        y_tr, y_val = y.iloc[train_idx], y.iloc[val_idx]
+
+        scaler = RobustScaler()
+        X_tr_scaled = scaler.fit_transform(X_tr)
+        X_val_scaled = scaler.transform(X_val)
+
+        lgb_train = lgb.Dataset(X_tr_scaled, y_tr)
+        model = lgb.train(
+            params,
+            lgb_train,
+            num_boost_round=500,
+            callbacks=[lgb.early_stopping(stopping_rounds=30), lgb.log_evaluation(0)],
+        )
+        oof_preds[val_idx] = model.predict(X_val_scaled, num_iteration=model.best_iteration)
+
+    signal = np.sign(oof_preds)
+    daily_ret = signal * y.values
+    fin = compute_fin_metrics(daily_ret, tc_bps=2.0)
+
+    # Save equity curve
+    equity = np.cumsum(daily_ret - (2.0 / 10000.0))
+    plt.figure(figsize=(10, 5))
+    plt.plot(equity, color="#59a14f")
+    plt.title("Walk-Forward OOF Equity Curve (2bps)")
+    plt.xlabel("day")
+    plt.ylabel("cumulative pnl")
+    plt.tight_layout()
+    Path("reports").mkdir(parents=True, exist_ok=True)
+    plt.savefig("reports/walkforward_oof_equity.png")
+    plt.close()
+
+    save_metrics(
+        {
+            "oof_sharpe_2bps": fin["sharpe"],
+            "oof_max_drawdown": fin["max_drawdown"],
+        },
+        out_dir="reports",
+        name_prefix="walkforward_oof_fin",
+    )
+
+    return {"daily_ret": daily_ret, "sharpe": fin["sharpe"], "max_dd": fin["max_drawdown"]}
+
+
 def main():
     print("\n" + "=" * 70)
     print("ADVANCED PIPELINE - HULL TACTICAL MARKET PREDICTION")
@@ -259,6 +311,12 @@ def main():
     cv_results = cross_validate_model(
         X_train.values, y_train, model_type="lightgbm", params=best_params, n_splits=5
     )
+
+    # Walk-forward OOF backtest
+    print("\n[5b] Walk-Forward OOF Backtest (2bps)...")
+    oof = walk_forward_oof_backtest(X_train.values, y_train, params=best_params, n_splits=5)
+    print(f"OOF Sharpe (2bps): {oof['sharpe']:.2f}")
+    print(f"OOF Max Drawdown: {oof['max_dd']:.2f}")
 
     # Train final model
     print("\n[6] Final Model Eğitimi...")
