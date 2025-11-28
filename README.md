@@ -53,6 +53,18 @@ python advanced_pipeline.py
 python advanced_pipeline.py --sharpe_window 252
 ```
 
+### Ensemble Submission (make_submission.py)
+Combine basic and advanced predictions:
+```bash
+# Default 50/50 blend
+python make_submission.py
+
+# Custom weights
+python make_submission.py --weight_basic 0.3 --weight_advanced 0.7
+```
+
+Output: `submission_ensemble.csv`
+
 ### Jupyter Notebook (market_prediction_analysis.ipynb)
 Comprehensive analysis and experimentation environment.
 

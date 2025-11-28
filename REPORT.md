@@ -326,11 +326,15 @@ python -c "import pandas, lightgbm, xgboost, optuna, shap; print('OK')"
 - Cross-validated
 - Higher risk, higher reward
 
-**Case 3: Best of Both**
-→ Build an ensemble:
-```python
-ensemble = 0.5 * basic + 0.5 * advanced
+**Case 3: Best of Both (Recommended)**
+→ Use ensemble:
+```bash
+python make_submission.py
 ```
+- Combines strengths of both models
+- Default 50/50 blend
+- Correlation: -0.051 (low correlation = diversification benefit)
+- Output: `submission_ensemble.csv`
 
 ### Next Steps
 1. Open Jupyter: `jupyter notebook`
