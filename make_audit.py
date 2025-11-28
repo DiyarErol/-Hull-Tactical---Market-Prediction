@@ -8,6 +8,7 @@ import numpy as np
 from pathlib import Path
 import json
 from datetime import datetime
+from pathlib import Path
 
 def print_section(title):
     """Print formatted section header"""
@@ -242,13 +243,36 @@ def generate_audit_report():
     except Exception as e:
         print(f"⚠ Environment check failed: {e}")
     
-    # Save audit report
-    audit_file = f'audit_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
-    with open(audit_file, 'w') as f:
+    # Save audit report (JSON)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    audit_json = f'audit_report_{ts}.json'
+    with open(audit_json, 'w') as f:
         json.dump(audit_data, f, indent=2)
-    
+
+    # Save simple HTML summary
+    Path('reports').mkdir(parents=True, exist_ok=True)
+    html_path = Path('reports') / f'full_audit_report_{ts}.html'
+    html = [
+        '<html><head><meta charset="utf-8"><title>Audit Report</title>',
+        '<style>body{font-family:Arial, sans-serif; max-width:900px; margin:40px auto;}h2{margin-top:24px;}code,pre{background:#f6f8fa;padding:8px;border-radius:6px;}table{border-collapse:collapse;width:100%;}td,th{border:1px solid #ddd;padding:8px;}</style>',
+        '</head><body>',
+        '<h1>Hull Tactical Market Prediction — Audit Report</h1>',
+        f'<p><strong>Generated:</strong> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>',
+        '<h2>Data Quality</h2>',
+        f'<pre>{json.dumps(audit_data.get("data_quality", {}), indent=2)}</pre>',
+        '<h2>Submissions</h2>',
+        f'<pre>{json.dumps(audit_data.get("submissions", {}), indent=2)}</pre>',
+        '<h2>Feature Groups</h2>',
+        f'<pre>{json.dumps(audit_data.get("feature_groups", {}), indent=2)}</pre>',
+        '<h2>Environment</h2>',
+        '<pre>See console section above</pre>',
+        '</body></html>'
+    ]
+    html_path.write_text("\n".join(html), encoding='utf-8')
+
     print_section("AUDIT COMPLETE")
-    print(f"✓ Full audit report saved to: {audit_file}")
+    print(f"✓ JSON saved to: {audit_json}")
+    print(f"✓ HTML saved to: {html_path}")
     print(f"✓ All checks completed successfully")
     print()
 

@@ -183,6 +183,15 @@ def add_momentum_features(df):
 - [ ] Model calibration
 - [ ] Production deployment (FastAPI)
 
+## 📦 Artifacts (CI)
+
+GitHub Actions CI, her push’ta aşağıdaki artifact’leri yükler:
+- `submission.csv`, `submission_advanced.csv`
+- `audit_report_*.json`
+- (Varsa) `reports/full_audit_report_*.html`
+
+Actions → “Python CI” çalıştırmasını açıp “Artifacts” sekmesinden indirebilirsiniz.
+
 ## 🤝 Katkı
 
 Öneriler ve iyileştirmeler için issue açabilirsiniz.
