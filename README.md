@@ -61,7 +61,7 @@ Kapsamlı analiz ve geliştirme ortamı:
    - LightGBM gain-based importance
    - SHAP values (TreeExplainer)
 5. **Ensemble Methods:** Weighted averaging
-6. **Görselleştirme:** Dağılım grafikleri, karşılaştırma tabloları
+6. **Görselleştirme:** Dağılım grafikleri, karşılaştırma tabloları, equity curve
 
 ## 🔧 Kullanılan Teknolojiler
 
@@ -189,6 +189,7 @@ GitHub Actions CI, her push’ta aşağıdaki artifact’leri yükler:
 - `submission.csv`, `submission_advanced.csv`
 - `audit_report_*.json`
 - (Varsa) `reports/full_audit_report_*.html`
+- Görseller: `reports/advanced_prediction_hist.png`, `reports/advanced_proxy_equity_curve.png`
 
 Actions → “Python CI” çalıştırmasını açıp “Artifacts” sekmesinden indirebilirsiniz.
 

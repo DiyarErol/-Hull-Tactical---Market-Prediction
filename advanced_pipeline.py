@@ -17,6 +17,7 @@ import lightgbm as lgb
 import xgboost as xgb
 import optuna
 import warnings
+import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
 
@@ -279,6 +280,30 @@ def main():
     # Create submission
     submission = pd.DataFrame({"id": test_ids, "prediction": test_preds})
     submission.to_csv("submission_advanced.csv", index=False)
+
+    # Save visuals to reports/
+    Path("reports").mkdir(parents=True, exist_ok=True)
+    # Histogram of predictions
+    plt.figure(figsize=(8, 5))
+    plt.hist(test_preds, bins=20, color="#4e79a7", alpha=0.8)
+    plt.title("Prediction Distribution (Advanced Pipeline)")
+    plt.xlabel("prediction")
+    plt.ylabel("count")
+    plt.tight_layout()
+    plt.savefig("reports/advanced_prediction_hist.png")
+    plt.close()
+
+    # Simple equity curve using sign(pred) * target on train (proxy)
+    train_signal = np.sign(y_train.values)
+    equity = np.cumsum(train_signal * y_train.values)
+    plt.figure(figsize=(9, 5))
+    plt.plot(equity, color="#e15759")
+    plt.title("Proxy Equity Curve (Train)")
+    plt.xlabel("day")
+    plt.ylabel("cumulative pnl")
+    plt.tight_layout()
+    plt.savefig("reports/advanced_proxy_equity_curve.png")
+    plt.close()
 
     print("\n" + "=" * 70)
     print("✓ submission_advanced.csv oluşturuldu")
