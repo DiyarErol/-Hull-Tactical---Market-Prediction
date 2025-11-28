@@ -11,6 +11,19 @@ Two-stage ML pipeline built for the Hull Tactical competition:
 1. **Basic Pipeline** (`main.py`): quick baseline models
 2. **Advanced Pipeline** (`advanced_pipeline.py`): feature engineering, tuning, CV
 
+### Walk-Forward OOF Backtest (2 bps)
+
+- Purpose: Out-of-fold, time-ordered evaluation without leakage
+- Config: LightGBM + RobustScaler per fold, early stopping, 2 bps/day cost
+- Latest local run:
+   - OOF Sharpe: -0.13
+   - Max Drawdown: ~0.00
+- Artifacts:
+   - Equity curve: `reports/walkforward_oof_equity.png`
+   - Metrics JSON: `reports/walkforward_oof_fin_*.json`
+   - Rolling Sharpe: `reports/rolling_sharpe_oof.png`
+   - CI Job Summary appends OOF metrics when available
+
 ---
 
 ## 🎯 Model Performance Comparison

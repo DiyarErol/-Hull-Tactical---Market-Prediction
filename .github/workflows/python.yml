@@ -91,4 +91,5 @@ PY
             audit_report_*.json
             reports/walkforward_oof_equity.png
             reports/walkforward_oof_fin_*.json
+            reports/rolling_sharpe_oof.png
           if-no-files-found: warn

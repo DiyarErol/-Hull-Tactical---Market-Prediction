@@ -237,6 +237,23 @@ def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_split
     plt.savefig("reports/walkforward_oof_equity.png")
     plt.close()
 
+    # Rolling Sharpe (approx) over 126-day window
+    # Use net returns: subtract transaction cost
+    net = daily_ret - (2.0 / 10000.0)
+    window = 126
+    eps = 1e-12
+    roll_mu = pd.Series(net).rolling(window).mean()
+    roll_sigma = pd.Series(net).rolling(window).std() + eps
+    roll_sharpe = (roll_mu / roll_sigma) * np.sqrt(252)
+    plt.figure(figsize=(10, 4))
+    plt.plot(roll_sharpe.values, color="#4e79a7")
+    plt.title(f"Rolling Sharpe ({window}-day, 2bps)")
+    plt.xlabel("day")
+    plt.ylabel("rolling sharpe")
+    plt.tight_layout()
+    plt.savefig("reports/rolling_sharpe_oof.png")
+    plt.close()
+
     save_metrics(
         {
             "oof_sharpe_2bps": fin["sharpe"],

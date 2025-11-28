@@ -201,6 +201,7 @@ GitHub Actions CI uploads the following artifacts on each push:
 - Artifacts:
     - Equity: `reports/walkforward_oof_equity.png`
     - Metrics JSON: `reports/walkforward_oof_fin_*.json`
+    - Rolling Sharpe: `reports/rolling_sharpe_oof.png`
 
 Open Actions → “Python CI” run and download from “Artifacts”.
 
