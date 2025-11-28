@@ -201,11 +201,20 @@ def walk_forward_oof_backtest(X: np.ndarray, y: pd.Series, params: dict, n_split
         X_tr_scaled = scaler.fit_transform(X_tr)
         X_val_scaled = scaler.transform(X_val)
 
+        # Ensure required params for evaluation
+        params_b = dict(params)
+        params_b.setdefault("objective", "regression")
+        params_b.setdefault("metric", "rmse")
+        params_b.setdefault("verbosity", -1)
+
         lgb_train = lgb.Dataset(X_tr_scaled, y_tr)
+        lgb_val = lgb.Dataset(X_val_scaled, y_val, reference=lgb_train)
         model = lgb.train(
-            params,
+            params_b,
             lgb_train,
             num_boost_round=500,
+            valid_sets=[lgb_val],
+            valid_names=["val"],
             callbacks=[lgb.early_stopping(stopping_rounds=30), lgb.log_evaluation(0)],
         )
         oof_preds[val_idx] = model.predict(X_val_scaled, num_iteration=model.best_iteration)
